@@ -1,9 +1,20 @@
-var express = require('express');
-var router = express.Router();
+import express from "express";
+import mongoose from "mongoose";
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+const app = express();
 
-module.exports = router;
+const connect = () => {
+  mongoose.connect(process.env.MONGO)
+          .then(() => {
+            console.log("DB Connected");
+          })
+          .catch(err => {
+            throw err;
+          });
+}
+
+app.listen(8080, () => {
+  console.log("Connected!");
+  connect();
+})
