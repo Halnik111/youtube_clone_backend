@@ -1,9 +1,29 @@
-var express = require('express');
-var router = express.Router();
+import express from "express";
+import {deleteUser, dislikeVideo, getUser, likeVideo, subscribe, unsubscribe, updateUser} from "../controllers/user.js";
+import {verifyToken} from "../verifyToken.js";
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+const router = express.Router();
 
-module.exports = router;
+// get user
+router.get("/:id", getUser);
+
+// update user
+router.put("/:id", verifyToken, updateUser);
+
+// delete user
+router.delete("/find/:id", deleteUser);
+
+// like
+router.put("/like/:videoId", likeVideo);
+
+// dislike
+router.put("/dislike/:videoId", dislikeVideo);
+
+// subscribe
+router.put("/sub/:id", subscribe);
+
+// unsubscribe
+router.put("/unsub/:id", unsubscribe);
+
+
+export default router;
