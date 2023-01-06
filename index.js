@@ -21,8 +21,8 @@ const connect = () => {
 app.use(cookieParser());
 app.use(express.json());
 app.use("/users", userRoutes);
-app.use("/video", videoRoutes);
-app.use("/comment", commentRoutes);
+app.use("/videos", videoRoutes);
+app.use("/comments", commentRoutes);
 app.use("/auth", authRoutes);
 
 app.listen(8080, () => {
