@@ -6,7 +6,7 @@ export const getUser = async (req, res) => {
         res.status(200).json(user);
     }
     catch (err) {
-        res.status(err.status).json(err.message);
+        res.status(400).json(err.message);
     }
 };
 
@@ -21,7 +21,7 @@ export const updateUser = async (req, res) => {
             res.status(200).json(updatedUser);
         }
         catch (err) {
-            res.status(err.status).json(err.message);
+            res.status(400).json(err.message);
 
         }
     }
@@ -37,7 +37,7 @@ export const deleteUser = async (req, res) => {
             res.status(200).json("User deleted!");
         }
         catch (err) {
-            res.status(err.status).json(err.message);
+            res.status(400).json(err.message);
         }
     }
     else {
@@ -55,7 +55,7 @@ export const dislikeVideo = async (req, res) => {
 
 export const subscribe = async (req, res) => {
     try {
-        await User.findById(req.data.id, {
+        await User.findByIdAndUpdate(req.data.id, {
             $push: {subscribedUsers: req.params.id}
         });
         await User.findByIdAndUpdate(req.params.id, {
@@ -63,7 +63,7 @@ export const subscribe = async (req, res) => {
         });
         res.status(200).json("Subscribed!");
     } catch (err) {
-        res.status(err.status).json(err.message);
+        res.status(400).json(err.message);
 
     }
 };
@@ -79,6 +79,5 @@ export const unsubscribe = async (req, res) => {
         res.status(200).json("Unsubscribed!");
     } catch (err) {
         res.status(err.status).json(err.message);
-
     }
 };

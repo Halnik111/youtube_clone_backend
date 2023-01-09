@@ -7,7 +7,7 @@ export const getVideo = async (req, res) => {
         res.status(200).json(video);
     }
     catch (err) {
-        res.status(err.status).json(err.message);
+        res.status(404).json(err.message);
     }
 };
 
@@ -18,7 +18,7 @@ export const addVideo = async (req, res) => {
         res.status(200).json("Video added!");
     }
     catch (err) {
-        res.status(err.status).json(err.message);
+        res.status(500).json(err.message);
     }
 };
 
@@ -54,7 +54,7 @@ export const deleteVideo = async (req, res) => {
         }
     }
     catch (err) {
-        res.status(err.status).json(err.message);
+        res.status(404).json(err.message);
     }
 };
 
@@ -66,7 +66,7 @@ export const viewVideo = async (req, res) => {
         res.status(200).json("View +1");
     }
     catch (err) {
-        res.status(err.status).json(err.message);
+        res.status(404).json(err.message);
     }
 };
 
@@ -76,7 +76,7 @@ export const trendingVideo = async (req, res) => {
         res.status(200).json(video);
     }
     catch (err) {
-        res.status(err.status).json(err.message);
+        res.status(404).json(err.message);
     }
 };
 
@@ -86,23 +86,33 @@ export const exploreVideo = async (req, res) => {
         res.status(200).json(video);
     }
     catch (err) {
-        res.status(err.status).json(err.message);
+        res.status(404).json(err.message);
     }
 };
 
 export const subscriptionVideo = async (req, res) => {
     try {
         const account = await User.findById(req.data.id);
-        const subChannels = await account.subscribedUsers;
-        const list = Promise.all(subChannels.map(channel => {
-            return Video.find({userId: channel})
-        }));
-        res.status(200).json(list);
+        const subscribedAccounts = account.subscribedUsers;
+        await Promise.all(subscribedAccounts.map(channel => Video.find({userId: channel})))
+                     .then(data => res.status(200).json(data.flat()))
+                     .catch(err => res.status(404).json(err.message));
     }
     catch (err) {
-        res.status(err.status).json(err.message);
+        res.status(404).json(err.message);
     }
 };
+
+export const searchVideo = async (req, res) => {
+    const tags = req.query.tags.split(",");
+    try {
+        const videoSearch = await Video.find({$or: [{videoTitle: {$regex: '.*' + req.query.tags + '.*' }}, {tags: {$in: tags}}]}).limit(20);
+        res.status(200).json(videoSearch.sort((a,b) => a.updatedAt - b.updatedAt));
+    }
+    catch (err) {
+            throw res.status(404).json(err.message);
+    }
+}
 
 
 

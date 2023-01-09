@@ -11,7 +11,7 @@ export const signUp = async (req, res) => {
         await newUser.save();
         res.status(201).json("User has been created!");
     } catch (err) {
-        res.status(409).json("message: " + err);
+        res.status(err.status).json("message: " + err.message);
     }
 }
 
@@ -28,16 +28,27 @@ export const signIn = async (req, res) => {
         }
         else {
             const token = jwt.sign({id:username._id}, process.env.JWT);
+            console.log(token);
             const {password, ...others} = username._doc;
 
             res.cookie("access_token", token, {
                     httpOnly: true
                 },
-                {new:true}
+                // {new:true}
             ).status(200)
                .json(others);
         }
     } catch (err) {
-        res.status(409).json("message: " + err);
+        res.status(err.status).json("message: " + err.message);
     }
 }
+
+export const signOut = (req,res) => {
+    try {
+        res.cookie("access_token", "0", {
+            httpOnly: true
+        }).status(200).json("Account signed out!");
+    } catch (err) {
+        res.status(err.status).json("message: " + err.message);
+    }
+};
