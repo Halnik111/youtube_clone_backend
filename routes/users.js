@@ -7,9 +7,9 @@ const router = express.Router();
 // get user
 router.get("/find/:id", getUser);
 // update user
-router.put("/:id", verifyToken, updateUser);
+router.put("/", verifyToken, updateUser);
 // delete user
-router.delete("/:id", verifyToken, deleteUser);
+router.delete("/", verifyToken, deleteUser);
 // like
 router.put("/like/:videoId", verifyToken, likeVideo);
 // dislike

@@ -11,24 +11,24 @@ export const signUp = async (req, res) => {
         await newUser.save();
         res.status(201).json("User has been created!");
     } catch (err) {
-        res.status(err.status).json("message: " + err.message);
+        res.status(409).json("message: " + err.message);
     }
 }
 
 export const signIn = async (req, res) => {
     try {
         const username = await User.findOne({name:req.body.name})
-        const comparePassword = await bcrypt.compare(req.body.password, username.password);
 
         if (!username) {
             res.status(404).json("message: " + "User not found");
         }
-        else if(!comparePassword) {
+        const comparePassword = await bcrypt.compare(req.body.password, username.password);
+
+        if(!comparePassword) {
             res.status(400).json("message: " + "Incorrect password");
         }
         else {
             const token = jwt.sign({id:username._id}, process.env.JWT);
-            console.log(token);
             const {password, ...others} = username._doc;
 
             res.cookie("access_token", token, {
@@ -39,7 +39,7 @@ export const signIn = async (req, res) => {
                .json(others);
         }
     } catch (err) {
-        res.status(err.status).json("message: " + err.message);
+        res.status(500).json("message: " + err.message);
     }
 }
 

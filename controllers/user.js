@@ -2,48 +2,40 @@ import User from "../models/User.js";
 
 export const getUser = async (req, res) => {
     try {
-        const user = User.findById(req.params.id);
+        const user = await User.findById(req.params.id);
         res.status(200).json(user);
+    }
+    catch (err) {
+        res.status(500).json(err.message);
+    }
+};
+
+export const updateUser = async (req, res) => {
+    try {
+        const updatedUser = await User.findByIdAndUpdate(req.data.id, {
+                $set:req.body
+            },
+            {new:true}
+        );
+        res.status(200).json(updatedUser);
     }
     catch (err) {
         res.status(400).json(err.message);
     }
 };
 
-export const updateUser = async (req, res) => {
-    if (req.params.id === req.data.id) {
-        try{
-            const updatedUser = await User.findByIdAndUpdate(req.params.id, {
-                $set:req.body
-            },
-                {new:true}
-            );
-            res.status(200).json(updatedUser);
-        }
-        catch (err) {
-            res.status(400).json(err.message);
-
-        }
-    }
-    else {
-        res.status(403).json("Missing access!")
-    }
-};
-
 export const deleteUser = async (req, res) => {
-    if (req.params.id === req.data.id) {
-        try{
-            await User.findByIdAndDelete(req.params.id);
-            res.status(200).json("User deleted!");
-        }
-        catch (err) {
-            res.status(400).json(err.message);
-        }
+    try{
+        await User.findByIdAndDelete(req.data.id);
+        res.cookie("access_token", "0", {
+            httpOnly: true
+        })
+        res.status(200).json("User deleted!");
     }
-    else {
-        res.status(403).json("Missing access!")
+    catch (err) {
+        res.status(400).json(err.message);
     }
-};
+}
 
 export const likeVideo = async (req, res) => {
 
@@ -63,14 +55,14 @@ export const subscribe = async (req, res) => {
         });
         res.status(200).json("Subscribed!");
     } catch (err) {
-        res.status(400).json(err.message);
+        res.status(500).json(err.message);
 
     }
 };
 
 export const unsubscribe = async (req, res) => {
     try {
-        await User.findById(req.data.id, {
+        await User.findByIdAndUpdate(req.data.id, {
             $pull: {subscribedUsers: req.params.id}
         });
         await User.findByIdAndUpdate(req.params.id, {
@@ -78,6 +70,6 @@ export const unsubscribe = async (req, res) => {
         });
         res.status(200).json("Unsubscribed!");
     } catch (err) {
-        res.status(err.status).json(err.message);
+        res.status(500).json(err.message);
     }
 };
