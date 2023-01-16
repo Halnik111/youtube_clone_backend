@@ -5,6 +5,12 @@ import videoRoutes from "./routes/videos.js";
 import commentRoutes from "./routes/comments.js";
 import authRoutes from "./routes/auth.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+const corsOptions ={
+    origin:'*',
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200,
+}
 
 const app = express();
 
@@ -19,6 +25,7 @@ const connect = () => {
 }
 
 app.use(cookieParser());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/users", userRoutes);
 app.use("/videos", videoRoutes);
