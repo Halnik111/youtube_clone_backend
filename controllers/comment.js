@@ -13,44 +13,46 @@ export const addComment = async (req, res) => {
 };
 
 export const updateComment = async (req, res) => {
-    const comment = await Comment.findById(req.params.id);
-    if (req.data.id === comment.userId) {
-        try {
+    try {
+        const comment = await Comment.findById(req.params.id);
+        if (req.data.id === comment.userId) {
+
             await comment.updateOne({
                     $set:req.body
                 },
                 {new:true}
             );
             res.status(200).json("Comment updated!")
-        } catch (err) {
-            res.status(500).json(err.message);
+
         }
-    }
-    else {
+        else {
             res.status(403).json("Missing access!");
+        }
+    } catch (err) {
+        res.status(500).json(err.message);
     }
 
 };
 
 export const deleteComment = async (req, res) => {
-    const comment = await Comment.findById(req.params.id);
-    if (req.data.id === comment.userId) {
-        try {
+    try {
+        const comment = await Comment.findById(req.params.id);
+        if (req.data.id === comment.userId) {
+
             comment.deleteOne();
             res.status(200).json("Comment deleted.");
-        }
-        catch (err) {
-            res.status(500).json(err.message);
+        } else {
+            res.status(403).json("Missing access!");
         }
     }
-    else {
-        res.status(403).json("Missing access!");
+    catch (err) {
+        res.status(500).json(err.message);
     }
 };
 
 export const getComments = async (req, res) => {
     try {
-        const comments = await Comment.find({videoID: req.params.id})
+        const comments = await Comment.find({videoID: req.params.videoID});
         res.status(200).json(comments);
     }
     catch (err) {

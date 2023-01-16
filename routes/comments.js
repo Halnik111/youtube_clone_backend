@@ -11,7 +11,7 @@ router.put("/:id", verifyToken, updateComment);
 //Delete comment
 router.delete("/:id", verifyToken, deleteComment);
 //Show all comments
-router.get("/:id", getComments)
+router.get("/:videoID", getComments)
 
 
 export default router;

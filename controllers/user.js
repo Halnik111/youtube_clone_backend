@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import Video from "../models/Video.js";
 
 export const getUser = async (req, res) => {
     try {
@@ -33,16 +34,35 @@ export const deleteUser = async (req, res) => {
         res.status(200).json("User deleted!");
     }
     catch (err) {
-        res.status(400).json(err.message);
+        res.status(500).json(err.message);
     }
 }
 
 export const likeVideo = async (req, res) => {
-
+    try {
+       await Video.findByIdAndUpdate(req.params.videoID, {
+            $addToSet: {like: req.data.id},
+           $pull:{dislike: req.data.id}
+        });
+        res.status(200).json("liked!");
+    }
+    catch (err) {
+        res.status(500).json(err.message);
+    }
 };
 
 export const dislikeVideo = async (req, res) => {
+    try {
+        await Video.findByIdAndUpdate(req.params.videoID, {
+            $addToSet: {dislike: req.data.id},
+            $pull:{like: req.data.id}
+        });
+        res.status(200).json("dislike!")
 
+    }
+    catch (err) {
+        res.status(500).json(err.message);
+    }
 };
 
 export const subscribe = async (req, res) => {
