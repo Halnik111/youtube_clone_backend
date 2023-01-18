@@ -1,9 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
-import userRoutes from "./routes/users.js";
-import videoRoutes from "./routes/videos.js";
-import commentRoutes from "./routes/comments.js";
-import authRoutes from "./routes/auth.js";
+import userRoutes from "./src/routes/users.js";
+import videoRoutes from "./src/routes/videos.js";
+import commentRoutes from "./src/routes/comments.js";
+import authRoutes from "./src/routes/auth.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 const corsOptions ={

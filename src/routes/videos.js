@@ -1,5 +1,5 @@
 import express from "express";
-import {verifyToken} from "../verifyToken.js";
+import {verifyToken} from "../../verifyToken.js";
 import {
     addVideo,
     deleteVideo,
