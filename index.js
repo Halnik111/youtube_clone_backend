@@ -7,8 +7,9 @@ import authRoutes from "./src/routes/auth.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 const corsOptions ={
-    origin:'*',
-    credentials:true,            //access-control-allow-credentials:true
+    origin: "http://localhost:3000",
+    credentials: true,
+    allowCredentials: true,            //access-control-allow-credentials:true
     optionSuccessStatus:200,
 }
 
