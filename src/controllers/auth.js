@@ -56,9 +56,7 @@ export const signOut = async (req,res) => {
 export const googleAuth = async (req, res) => {
     try {
         const user = await User.findOne({email: req.body.email});
-        console.log(user._doc)
         if (user._doc) {
-            console.log("user found")
             const token = jwt.sign({id:user._id}, process.env.JWT);
             res.cookie("access_token", token, {
                     httpOnly: true,
@@ -68,7 +66,6 @@ export const googleAuth = async (req, res) => {
                .json(user._doc);
         }
         else {
-            console.log("user not found")
             const newUser = new User({
                 ...req.body,
                 fromGoogle: true
