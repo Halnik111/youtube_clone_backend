@@ -43,12 +43,47 @@ export const signIn = async (req, res) => {
     }
 }
 
-export const signOut = (req,res) => {
+export const signOut = async (req,res) => {
     try {
-        res.cookie("access_token", "0", {
+        await res.cookie("access_token", "0", {
             httpOnly: true
         }).status(200).json("Account signed out!");
     } catch (err) {
-        res.status(err.status).json("message: " + err.message);
+        res.status(500).json("message: " + err.message);
     }
 };
+
+export const googleAuth = async (req, res) => {
+    try {
+        const user = await User.findOne({email: req.body.email});
+        console.log(user._doc)
+        if (user._doc) {
+            console.log("user found")
+            const token = jwt.sign({id:user._id}, process.env.JWT);
+            res.cookie("access_token", token, {
+                    httpOnly: true,
+                },
+                {new:true}
+            ).status(200)
+               .json(user._doc);
+        }
+        else {
+            console.log("user not found")
+            const newUser = new User({
+                ...req.body,
+                fromGoogle: true
+            });
+            await newUser.save();
+            const token = jwt.sign({id:newUser._id}, process.env.JWT);
+            res.cookie("access_token", token, {
+                    httpOnly: true,
+                },
+                {new:true}
+            ).status(200)
+               .json(newUser._doc);
+        }
+    }
+    catch (err) {
+        res.status(409).json("message: " + err.message);
+    }
+}
