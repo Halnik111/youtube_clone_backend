@@ -11,9 +11,9 @@ router.put("/", verifyToken, updateUser);
 // delete user
 router.delete("/", verifyToken, deleteUser);
 // like
-router.get("/like/:videoID", verifyToken, likeVideo);
+router.put("/like/:videoID", verifyToken, likeVideo);
 // dislike
-router.get("/dislike/:videoID", verifyToken, dislikeVideo);
+router.put("/dislike/:videoID", verifyToken, dislikeVideo);
 // subscribe
 router.put("/sub/:id", verifyToken, subscribe);
 // unsubscribe

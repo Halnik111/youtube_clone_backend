@@ -40,23 +40,42 @@ export const deleteUser = async (req, res) => {
 
 export const likeVideo = async (req, res) => {
     try {
-       await Video.findByIdAndUpdate(req.params.videoID, {
-            $addToSet: {like: req.data.id},
-           $pull:{dislike: req.data.id}
-        });
+        const video = await Video.findById(req.params.videoID);
+
+        if (video.like.includes(req.data.id)) {
+            await Video.findByIdAndUpdate(req.params.videoID, {
+                $pull:{like: req.data.id}
+            })
+        }
+        else {
+            await Video.findByIdAndUpdate(req.params.videoID, {
+                $addToSet: {like: req.data.id},
+                $pull:{dislike: req.data.id}
+            });
+        }
         res.status(200).json("liked!");
     }
     catch (err) {
-        res.status(500).json(err.message);
+        console.log(err)
+        res.status(500).json(err);
     }
 };
 
 export const dislikeVideo = async (req, res) => {
     try {
-        await Video.findByIdAndUpdate(req.params.videoID, {
-            $addToSet: {dislike: req.data.id},
-            $pull:{like: req.data.id}
-        });
+        const video = await Video.findById(req.params.videoID);
+
+        if (video.dislike.includes(req.data.id)) {
+            await Video.findByIdAndUpdate(req.params.videoID, {
+                $pull:{dislike: req.data.id}
+            })
+        }
+        else {
+            await Video.findByIdAndUpdate(req.params.videoID, {
+                $addToSet: {dislike: req.data.id},
+                $pull:{like: req.data.id}
+            });
+        }
         res.status(200).json("dislike!")
 
     }
