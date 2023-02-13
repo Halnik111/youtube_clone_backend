@@ -53,7 +53,7 @@ export const likeVideo = async (req, res) => {
                 $pull:{dislike: req.data.id}
             });
         }
-        res.status(200).json("liked!");
+        res.status(200).json(video);
     }
     catch (err) {
         console.log(err)
@@ -86,28 +86,32 @@ export const dislikeVideo = async (req, res) => {
 
 export const subscribe = async (req, res) => {
     try {
-        await User.findByIdAndUpdate(req.data.id, {
+        const user = await User.findByIdAndUpdate(req.data.id, {
             $push: {subscribedUsers: req.params.id}
-        });
+        }, {new: true});
+
         await User.findByIdAndUpdate(req.params.id, {
             $inc: {subscribers: 1}
         });
-        res.status(200).json("Subscribed!");
-    } catch (err) {
-        res.status(500).json(err.message);
 
+        res.status(200).json(user);
+    } catch (err) {
+        console.log("error")
+        res.status(500).json(err.message);
     }
 };
 
 export const unsubscribe = async (req, res) => {
     try {
-        await User.findByIdAndUpdate(req.data.id, {
+        const user = await User.findByIdAndUpdate(req.data.id, {
             $pull: {subscribedUsers: req.params.id}
-        });
+        }, {new: true});
+
         await User.findByIdAndUpdate(req.params.id, {
             $inc: {subscribers: -1}
         });
-        res.status(200).json("Unsubscribed!");
+
+        res.status(200).json(user);
     } catch (err) {
         res.status(500).json(err.message);
     }
