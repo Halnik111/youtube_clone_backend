@@ -59,3 +59,47 @@ export const getComments = async (req, res) => {
         res.status(500).json(err.message);
     }
 };
+
+export const dislikeComment = async (req, res) => {
+    try {
+        const comment = await Comment.findById(req.params.commentId);
+
+        if (comment.dislikes.includes(req.data.id)) {
+            await Comment.findByIdAndUpdate(req.params.commentId, {
+                $pull:{dislikes: req.data.id}
+            })
+        }
+        else {
+            await Comment.findByIdAndUpdate(req.params.commentId, {
+                $addToSet: {dislikes: req.data.id},
+                $pull:{likes: req.data.id}
+            });
+        }
+        res.status(200).json(await Comment.findById(req.params.commentId))
+    }
+    catch (err) {
+        res.status(500).json(err.message);
+    }
+};
+
+export const likeComment = async (req, res) => {
+    try {
+        const comment = await Comment.findById(req.params.commentId);
+
+        if (comment.likes.includes(req.data.id)) {
+            await Comment.findByIdAndUpdate(req.params.commentId, {
+                $pull:{likes: req.data.id}
+            })
+        }
+        else {
+            await Comment.findByIdAndUpdate(req.params.commentId, {
+                $addToSet: {likes: req.data.id},
+                $pull:{dislikes: req.data.id}
+            });
+        }
+        res.status(200).json(await Comment.findById(req.params.commentId))
+    }
+    catch (err) {
+        res.status(500).json(err.message);
+    }
+}
