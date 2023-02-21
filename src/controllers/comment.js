@@ -22,7 +22,7 @@ export const updateComment = async (req, res) => {
                 },
                 {new:true}
             );
-            res.status(200).json("Comment updated!")
+            res.status(200).json(await Comment.findById(req.params.id))
 
         }
         else {
@@ -40,7 +40,7 @@ export const deleteComment = async (req, res) => {
         if (req.data.id === comment.userId) {
 
             comment.deleteOne();
-            res.status(200).json("Comment deleted.");
+            res.status(200).json(await Comment.find({videoID: req.params.videoID}));
         } else {
             res.status(403).json("Missing access!");
         }
