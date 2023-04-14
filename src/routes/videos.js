@@ -13,7 +13,7 @@ import {
 const router = express.Router();
 
 //SHOW video
-router.get("/find/:id", verifyToken, getVideo);
+router.get("/find/:id", getVideo);
 //UPLOAD video
 router.post("/", verifyToken, addVideo);
 //UPDATE video
