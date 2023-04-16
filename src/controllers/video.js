@@ -60,10 +60,10 @@ export const deleteVideo = async (req, res) => {
 
 export const viewVideo = async (req, res) => {
     try {
-        const views = await Video.findByIdAndUpdate(req.params.id, {
+        await Video.findByIdAndUpdate(req.params.id, {
            $inc:{views: 1}
         });
-        res.status(200).json(views.views);
+        res.status(200).json(await Video.findById(req.params.id));
     }
     catch (err) {
         res.status(404).json(err.message);
@@ -104,7 +104,7 @@ export const subscriptionVideo = async (req, res) => {
 };
 
 export const searchVideo = async (req, res) => {
-    const tags = req.query.tags.split(",");
+    const tags = req.query.tags.split(" ");
     try {
         const videoSearch = await Video.find({$or: [{videoTitle: {$regex: req.query.tags, $options:"i" }}, {tags: {$in: tags}}]}).limit(20);
         res.status(200).json(videoSearch.sort((a,b) => a.updatedAt - b.updatedAt));
