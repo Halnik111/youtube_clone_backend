@@ -56,7 +56,7 @@ export const signOut = async (req,res) => {
 export const googleAuth = async (req, res) => {
     try {
         const user = await User.findOne({email: req.body.email});
-        if (user._doc) {
+        if (user) {
             const token = jwt.sign({id:user._id}, process.env.JWT);
             res.cookie("access_token", token, {
                     httpOnly: true,

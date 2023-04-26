@@ -1,7 +1,7 @@
 import express from "express";
 import {verifyToken} from "../../verifyToken.js";
 import {
-    addVideo,
+    addVideo, channelVideos,
     deleteVideo,
     exploreVideo,
     getVideo, searchVideo, subscriptionVideo,
@@ -30,6 +30,8 @@ router.get("/explore", exploreVideo);
 router.get("/subscription", verifyToken, subscriptionVideo);
 //SEARCH videos
 router.get("/search", searchVideo);
+//SHOW all channel videos
+router.get("/channel/:id", channelVideos);
 
 
 export default router;

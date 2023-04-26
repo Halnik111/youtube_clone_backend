@@ -114,6 +114,16 @@ export const searchVideo = async (req, res) => {
     }
 }
 
+export const channelVideos = async (req,res) => {
+    try {
+        const videos = await Video.find({userId: req.params.id});
+        res.status(200).json(videos);
+    }
+    catch (err) {
+        throw res.status(404).json(err.message);
+    }
+}
+
 
 
 

@@ -19,5 +19,4 @@ router.put("/sub/:id", verifyToken, subscribe);
 // unsubscribe
 router.put("/unsub/:id", verifyToken, unsubscribe);
 
-
 export default router;
