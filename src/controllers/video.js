@@ -122,7 +122,7 @@ export const channelVideos = async (req,res) => {
     catch (err) {
         throw res.status(404).json(err.message);
     }
-}
+};
 
 
 

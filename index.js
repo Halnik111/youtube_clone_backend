@@ -4,6 +4,7 @@ import userRoutes from "./src/routes/users.js";
 import videoRoutes from "./src/routes/videos.js";
 import commentRoutes from "./src/routes/comments.js";
 import authRoutes from "./src/routes/auth.js";
+import playlistRoutes from "./src/routes/playlists.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 const corsOptions ={
@@ -32,6 +33,7 @@ app.use("/users", userRoutes);
 app.use("/videos", videoRoutes);
 app.use("/comments", commentRoutes);
 app.use("/auth", authRoutes);
+app.use("/playlists", playlistRoutes);
 
 app.listen(8080, () => {
   console.log("Connected!");
