@@ -24,7 +24,22 @@ export const getUserPlaylists = async (req,res) => {
 
 export const addVideoToPlaylist = async (req,res) => {
     try {
+        const playlist = await Playlist.findByIdAndUpdate(req.params.id, {
+            $push: {videos: req.body.video}
+        }, {new: true});
+        res.status(200).json(playlist);
+    }
+    catch (err) {
+        res.status(500).json(err.message);
+    }
+}
 
+export const removeVideoFromPlaylist = async (req,res) => {
+    try {
+        const playlist = await Playlist.findByIdAndUpdate(req.params.id, {
+            $pull: {videos: req.body.video}
+        }, {new: true});
+        res.status(200).json(playlist);
     }
     catch (err) {
         res.status(500).json(err.message);

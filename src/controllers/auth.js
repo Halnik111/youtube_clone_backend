@@ -46,7 +46,7 @@ export const signIn = async (req, res) => {
 export const signOut = async (req,res) => {
     try {
         await res.cookie("access_token", "0", {
-            httpOnly: true
+            httpOnly: true,
         }).status(200).json("Account signed out!");
     } catch (err) {
         res.status(500).json("message: " + err.message);

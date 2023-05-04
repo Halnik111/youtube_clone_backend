@@ -12,6 +12,7 @@ const playlistSchema = new mongoose.Schema( {
     },
     videos: {
         type:[String],
+        unique: true,
     },
 }, {timestamps:true}
 );
