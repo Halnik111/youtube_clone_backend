@@ -12,6 +12,17 @@ export const createPlaylist = async (req, res) => {
     }
 };
 
+export const deletePlaylist = async (req, res) => {
+    try {
+        await Playlist.findByIdAndDelete(req.params.id);
+        const playlists = await Playlist.find({userId: req.data.id});
+        res.status(200).json(playlists);
+    }
+    catch (err) {
+        res.status(500).json(err.message);
+    }
+}
+
 export const getUserPlaylists = async (req,res) => {
     try {
         const playlists = await Playlist.find({userId: req.params.id});

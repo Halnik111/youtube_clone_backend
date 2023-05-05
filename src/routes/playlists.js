@@ -2,7 +2,7 @@ import express from "express";
 import {verifyToken} from "../../verifyToken.js";
 import {
     addVideoToPlaylist,
-    createPlaylist,
+    createPlaylist, deletePlaylist,
     getUserPlaylists,
     removeVideoFromPlaylist
 } from "../controllers/playlist.js";
@@ -20,5 +20,7 @@ router.get("/preview/:id", playlistVideos);
 router.put("/add/:id", verifyToken, addVideoToPlaylist);
 //remove video from playlist
 router.put("/remove/:id", verifyToken, removeVideoFromPlaylist);
+//delete playlist
+router.delete("/:id", verifyToken, deletePlaylist);
 
 export default router;
