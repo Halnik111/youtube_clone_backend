@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js",
+    "start:dev": "nodemon index.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -16,7 +17,9 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.8.0",
     "morgan": "~1.9.1",
-    "nodemon": "^2.0.20",
     "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
