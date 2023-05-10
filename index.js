@@ -34,6 +34,7 @@ app.use("/videos", videoRoutes);
 app.use("/comments", commentRoutes);
 app.use("/auth", authRoutes);
 app.use("/playlists", playlistRoutes);
+app.get("/", (req, res) => {res.send("Working")});
 
 app.listen(process.env.PORT || 8080, () => {
   console.log("Connected!");
