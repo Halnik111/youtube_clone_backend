@@ -35,7 +35,7 @@ app.use("/comments", commentRoutes);
 app.use("/auth", authRoutes);
 app.use("/playlists", playlistRoutes);
 
-app.listen(8080, () => {
+app.listen(process.env.PORT || 8080, () => {
   console.log("Connected!");
   connect();
 })
