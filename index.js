@@ -29,12 +29,12 @@ const connect = () => {
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use("/users", userRoutes);
-app.use("/videos", videoRoutes);
-app.use("/comments", commentRoutes);
-app.use("/auth", authRoutes);
-app.use("/playlists", playlistRoutes);
-app.get("/", (req, res) => {res.send("Working")});
+app.use("/api/users", userRoutes);
+app.use("/api/videos", videoRoutes);
+app.use("/api/comments", commentRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/playlists", playlistRoutes);
+app.get("/api/", (req, res) => {res.send("Working")});
 
 app.listen(process.env.PORT || 8080, () => {
   console.log("Connected!");
