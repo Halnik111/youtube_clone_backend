@@ -8,7 +8,7 @@ import playlistRoutes from "./src/routes/playlists.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 const corsOptions ={
-    origin: "http://localhost:3000",
+    origin: "https://yt-clone.herokuapp.com",
     credentials: true,
     allowCredentials: true,            //access-control-allow-credentials:true
     optionSuccessStatus:200,
