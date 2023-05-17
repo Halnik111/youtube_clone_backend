@@ -7,6 +7,7 @@ import authRoutes from "./src/routes/auth.js";
 import playlistRoutes from "./src/routes/playlists.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import enforce from "express-sslify";
 const corsOptions ={
     origin: "https://yt-clone.herokuapp.com",
     credentials: true,
@@ -29,6 +30,7 @@ const connect = () => {
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(enforce.HTTPS({ trustProtoHeader:true }))
 app.use("/api/users", userRoutes);
 app.use("/api/videos", videoRoutes);
 app.use("/api/comments", commentRoutes);
