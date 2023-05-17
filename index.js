@@ -8,6 +8,7 @@ import playlistRoutes from "./src/routes/playlists.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import enforce from "express-sslify";
+import * as http from "http";
 const corsOptions ={
     origin: "https://yt-clone.herokuapp.com",
     credentials: true,
@@ -41,4 +42,8 @@ app.get("/api/", (req, res) => {res.send("Working")});
 app.listen(process.env.PORT || 8080, () => {
   console.log("Connected!");
   connect();
-})
+});
+
+http.createServer(app).listen(app.get('port'), function() {
+    console.log('Express server listening on port ' + app.get('port'));
+});
